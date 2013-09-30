@@ -10,15 +10,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 
-public class ClientView extends JFrame {
+public class ChatClientView extends JFrame {
 	
 	//Components
-	private JTextField textField;
-	private JTextArea textArea;
+	private JTextField messageText;
+	private JTextArea chatConversation;
 	private JButton btnEnter;
 	
 	
-	public ClientView(ClientModel model) 
+	public ChatClientView() 
 	{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,9 +31,9 @@ public class ClientView extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		
-		textField = new JTextField();
-		panel.add(textField);
-		textField.setColumns(25);
+		messageText = new JTextField();
+		panel.add(messageText);
+		messageText.setColumns(25);
 		
 		btnEnter = new JButton("Enter");
 		
@@ -42,21 +42,22 @@ public class ClientView extends JFrame {
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setColumns(35);
-		textArea.setRows(10);
-		panel_1.add(textArea);
+		chatConversation = new JTextArea();
+		chatConversation.setEditable(false);
+		chatConversation.setColumns(35);
+		chatConversation.setRows(10);
+		panel_1.add(chatConversation);
 		
 	}
 	
-	void setWindowTitle(String title)
-	{
-		setTitle(title);
-	}
+	public void setWindowTitle(String title) { setTitle(title); }
 	
-	void addEnterListener(ActionListener enl) {
-		btnEnter.addActionListener(enl);
-	}
+	public void addEnterListener(ActionListener enl) { btnEnter.addActionListener(enl); }
+	
+	public String getChatMessage() { return messageText.getText(); }
+	
+	public void addToMessageBoard(String str) { chatConversation.append(str); }
+	
+	public void emptyChatMessageField() { messageText.setText(""); }
 
 }

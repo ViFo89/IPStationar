@@ -2,19 +2,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class ClientController {
+public class ChatClientController {
 	
-	private ClientView _view;
-	private ClientModel _model;
+	private ChatClientView _view;
+	private ChatClientModel _model;
 
-	public ClientController(ClientModel model, ClientView view) 
+	public ChatClientController(ChatClientModel model, ChatClientView view) 
 	{
 		_view = view;
 		_model = model;
-		
-		String str = _model.getAdress() + ":" + _model.getPort();
-		
-		_view.setWindowTitle(str);
 		
 		//Adding Listeners To View
 		_view.addEnterListener(new EnterListener());
@@ -37,6 +33,12 @@ public class ClientController {
 			_model.setPort(Integer.parseInt(args[1]));
 			_model.setAdress(args[0]);
 		}
+		
+		String str = _model.getAdress() + ":" + _model.getPort();
+		
+		_view.setWindowTitle(str);
+		
+		new Thread(_model).start();
 	}
 	
 	
@@ -46,9 +48,20 @@ public class ClientController {
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			System.out.println("Send");
+			_model.sendMessage(_view.getChatMessage());
+			_view.emptyChatMessageField();
 		}
 		
+	}
+	
+	public void checkForUpdates()
+	{
+		while(true){
+			if(_model.isUpdated())
+			{
+				_view.addToMessageBoard(_model.getMessage());
+			}
+		}
 	}
 
 }
