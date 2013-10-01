@@ -62,7 +62,7 @@ public class ChatClientModel implements Runnable{
 		}
 	}
 
-	
+	public boolean isUpdated(){ return _updated; }
 	
 	/* Getters & Setters */
 	public void setPort(int port) { _connectionPort = port; }
@@ -89,6 +89,6 @@ public class ChatClientModel implements Runnable{
 		return str;
 	}
 	
-	public boolean isUpdated(){ return _updated; }
+	
 
 }

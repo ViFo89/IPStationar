@@ -5,9 +5,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 
 public class ChatClientView extends JFrame {
@@ -16,6 +19,7 @@ public class ChatClientView extends JFrame {
 	private JTextField messageText;
 	private JTextArea chatConversation;
 	private JButton btnEnter;
+	private JScrollPane scrollPane_1;
 	
 	
 	public ChatClientView() 
@@ -42,11 +46,22 @@ public class ChatClientView extends JFrame {
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		panel_1.add(scrollPane_1);
+		
 		chatConversation = new JTextArea();
+		scrollPane_1.setViewportView(chatConversation);
 		chatConversation.setEditable(false);
 		chatConversation.setColumns(35);
 		chatConversation.setRows(10);
-		panel_1.add(chatConversation);
+		
+	}
+	
+	public void moveScrollToBottom()
+	{ 
+		JScrollBar verticalScroll = scrollPane_1.getVerticalScrollBar();
+		verticalScroll.setValue(verticalScroll.getMaximum());
 		
 	}
 	
@@ -56,7 +71,11 @@ public class ChatClientView extends JFrame {
 	
 	public String getChatMessage() { return messageText.getText(); }
 	
-	public void addToMessageBoard(String str) { chatConversation.append(str); }
+	public void addToMessageBoard(String str) 
+	{ 
+		chatConversation.append(str);
+		moveScrollToBottom();
+	}
 	
 	public void emptyChatMessageField() { messageText.setText(""); }
 
