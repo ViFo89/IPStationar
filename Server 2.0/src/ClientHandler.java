@@ -24,7 +24,6 @@ public class ClientHandler implements Runnable
 				String message = null;
 				if ((message = in.readLine()) != null) 
 				{
-					System.out.println(message);
 					out.println("Du sa: "+ message);
 				}
 				

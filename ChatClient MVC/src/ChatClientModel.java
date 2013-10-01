@@ -5,7 +5,6 @@ public class ChatClientModel implements Runnable{
 	
 	static final int STANDARD_PORT = 2000;
 	static final String STANDARD_ADRESS = "localhost";
-	private volatile String _viewTitle;
 	private int _connectionPort;
 	private String _connectionAdress;
 	private volatile boolean _updated;
@@ -72,8 +71,6 @@ public class ChatClientModel implements Runnable{
 	public int getPort() { return _connectionPort; }
 	
 	public String getAdress() { return _connectionAdress; }
-	
-	public String getTitle() { return _viewTitle; }
 	
 	public void sendMessage(String message)
 	{ 

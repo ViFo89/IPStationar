@@ -1,27 +1,67 @@
+import java.io.IOException;
+import java.net.*;
+import java.util.LinkedList;
+
 
 public class ChatServerModel implements Runnable {
 
 	static final int STANDARD_PORT = 2000;
-	static final String STANDARD_ADRESS = "localhost";
-	private volatile String _viewTitle;
 	private int _connectionPort;
-	private String _connectionAdress;
+	private volatile LinkedList<ClientConnection> newClients;
+	private int currentID;
+	private volatile String _message;
 	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	
+	public ChatServerModel()
+	{
+		currentID = 0;
+		_connectionPort = STANDARD_PORT;
+		newClients = new LinkedList<ClientConnection>();
+		_message = "";
+	}
+	
+	
+	public void run()
+	{
+		try {
+			ServerSocket server = new ServerSocket(_connectionPort);
+			while(true)
+			{
+				Socket clientHandle = server.accept();
+				
+				ClientConnection client = new ClientConnection(clientHandle, ++currentID);
+				
+				_message = "Client connected from " + clientHandle.getLocalAddress().getHostName() + ", ID: "+ currentID;
+				newClients.add(client);
+				
+				new Thread(client).start();
+				
+			}
+			
+		} catch (IOException e) {
+			System.out.println("Fel!");
+		}
 		
 	}
 	
 	/* Getters & Setters*/
 	public void setPort(int port) { _connectionPort = port; }
 	
-	public void setAdress(String adress) { _connectionAdress = adress; }
-	
 	public int getPort() { return _connectionPort; }
 	
-	public String getAdress() { return _connectionAdress; }
+	public boolean hasMessage() { return !_message.isEmpty(); }
 	
-	public String getTitle() { return _viewTitle; }
+	public String getMessage() 
+	{ 
+		String temp = _message;
+		_message = "";
+		return temp; 
+		
+	}
+	
+	public boolean hasNewClient() { return !newClients.isEmpty(); }
+	
+	public ClientConnection getNewClient() { return newClients.pop(); }
+
 
 }

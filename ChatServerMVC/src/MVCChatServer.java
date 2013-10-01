@@ -11,6 +11,8 @@ public class MVCChatServer {
 		controller.handleArgs(args);
 		
 		view.setVisible(true);
+		
+		controller.checkForUpdates();
 	}
 
 }
