@@ -1,6 +1,4 @@
 
-
-//http://www.tutorialspoint.com/design_pattern/mvc_pattern.htm
 public class MVCChatClient {
 
 	public static void main(String[] args) {
