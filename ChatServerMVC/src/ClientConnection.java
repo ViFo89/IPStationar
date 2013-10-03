@@ -6,9 +6,8 @@ public class ClientConnection implements Runnable {
 
 	private Socket _socket;
 	private int _id;
-	//private volatile String _broadcastMessage;
 	private volatile boolean _run;
-	private volatile String _message2;
+	private volatile String _message;
 	private PrintWriter out;
 	
 	public ClientConnection(Socket socket, int id)
@@ -16,8 +15,7 @@ public class ClientConnection implements Runnable {
 		_run = true;
 		_id = id;
 		_socket = socket;
-		_message2 = "";
-		//_broadcastMessage = "";
+		_message = "";
 	}
 	
 	@Override
@@ -25,33 +23,17 @@ public class ClientConnection implements Runnable {
 	{
 		try{
 			BufferedReader in = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
-			out = new PrintWriter(_socket.getOutputStream());
+			out = new PrintWriter(_socket.getOutputStream(),true);
 			
-			out.print("Välkommen! Du har fått ID: " + _id + "\n");
-			out.flush();
+			out.println("Välkommen! Du har fåttt ID: " + _id + "\n");
 			
 			while(_run)
 			{
-				/*if(!_broadcastMessage.isEmpty())
-				{
-					System.out.println("Broadcast i "+_id + ": " +_broadcastMessage );
-					out.print(_broadcastMessage);
-					out.flush();
-					_broadcastMessage = "";
-					System.out.println("Skickat");
-				}*/
-				System.out.println(in.ready());
-				if(in.ready()){
-					_message2 = "#" + _id + ": "+ in.readLine();
-					System.out.println("Tar emot: " + _message2);
+				if(in.ready()){	//Kollar om det finns nått att hämta från BufferedReader (in)
+					synchronized(_message){	//Låser _message så inte flera trådar arbetar på den samtidigt
+						_message = "#" + _id + ": "+ in.readLine();	//
+					}
 				}
-
-				/*try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
 				
 			}
 		} catch(IOException e){
@@ -61,21 +43,23 @@ public class ClientConnection implements Runnable {
 	}
 	
 	public void shutDown(){ _run = false; }
-	
-	public String getMessage(){ 
-		String temp = _message2;
-		_message2 = "";
-		return temp;
+	/**
+	 * Returnerar och nollställer in-meddelandet.
+	 */
+	public synchronized String getMessage(){ 
+		synchronized(_message){	//Låser _message så inte flera trådar arbetar på den samtidigt
+			String temp = _message;
+			_message = "";
+			return temp;
+		}
 	}
 	
-	public void broadcast(String str){
-		System.out.println("Broadcast i "+_id + ": " + str );
-		out.print(str);
-		out.flush();
+	public synchronized void broadcast(String str){
+		out.println(str);
 	}
 	
 	public int getID(){ return _id; }
 	
-	public boolean hasMessage(){ return !_message2.isEmpty(); }
+	public boolean hasMessage(){ return !_message.isEmpty(); }
 
 }

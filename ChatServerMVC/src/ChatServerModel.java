@@ -44,7 +44,7 @@ public class ChatServerModel implements Runnable {
 		
 	}
 	
-	/* Getters & Setters*/
+	/* Getters & Setters */
 	public void setPort(int port) { _connectionPort = port; }
 	
 	public int getPort() { return _connectionPort; }

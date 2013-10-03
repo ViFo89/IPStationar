@@ -44,7 +44,7 @@ public class ChatServerController {
 			{
 				_clients.add(_model.getNewClient());
 				if(_model.hasMessage())
-					_view.addMessage(_model.getMessage());
+				_view.addMessage(_model.getMessage());
 			}
 
 			for(ClientConnection cc : _clients)
