@@ -63,5 +63,7 @@ public class ChatServerModel implements Runnable {
 	
 	public ClientConnection getNewClient() { return newClients.pop(); }
 
+	public int getNumberOfUsers() { return newClients.size(); }
+
 
 }

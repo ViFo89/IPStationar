@@ -36,6 +36,9 @@ public class ClientConnection implements Runnable {
 				}
 				
 			}
+			out.close();
+			in.close();
+			_socket.close();
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -57,6 +60,8 @@ public class ClientConnection implements Runnable {
 	public synchronized void broadcast(String str){
 		out.println(str);
 	}
+	
+	public boolean isConnected() { return out.checkError(); }
 	
 	public int getID(){ return _id; }
 	

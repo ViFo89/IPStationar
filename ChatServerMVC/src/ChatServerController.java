@@ -29,7 +29,7 @@ public class ChatServerController {
 
 		}
 		
-		String str = "Port: " + _model.getPort();
+		String str = "Port: " + _model.getPort()+ " | " +_clients.size();
 		
 		_view.setWindowTitle(str);
 	}
@@ -45,17 +45,28 @@ public class ChatServerController {
 				_clients.add(_model.getNewClient());
 				if(_model.hasMessage())
 				_view.addMessage(_model.getMessage());
+				_view.setWindowTitle("Port: "+ _model.getPort()+ " | " +_clients.size());
 			}
 
 			for(ClientConnection cc : _clients)
 			{
 				if(cc.hasMessage()){
 					_broadcastMess = cc.getMessage();
-					_view.addMessage(_broadcastMess);
-					
-					for(ClientConnection cc2 : _clients)
+
+					if(_broadcastMess.equals("#"+cc.getID()+": \\exit"))
 					{
-						cc2.broadcast(_broadcastMess);
+						_view.addMessage("#"+cc.getID() + " has disconnected");
+						cc.shutDown();
+						System.out.println("Före:"+_clients.size());
+						_clients.remove(cc);
+						System.out.println("efter:"+_clients.size());
+					}else{
+						_view.addMessage(_broadcastMess);
+						
+						for(ClientConnection cc2 : _clients)
+						{
+							cc2.broadcast(_broadcastMess);
+						}
 					}
 					
 				}

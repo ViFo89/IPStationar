@@ -60,6 +60,8 @@ public class ChatClientModel implements Runnable{
 			System.exit(0);
 		}
 	}
+	
+	public Socket getSocket(){ return _socket; }
 
 	public boolean isUpdated(){ return _updated; }
 	
@@ -71,6 +73,17 @@ public class ChatClientModel implements Runnable{
 	public int getPort() { return _connectionPort; }
 	
 	public String getAdress() { return _connectionAdress; }
+	
+	public void close()
+	{
+		_run = false;
+		try {
+			_socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public void sendMessage(String message)
 	{ 
