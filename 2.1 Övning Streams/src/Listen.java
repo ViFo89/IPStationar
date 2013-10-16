@@ -21,7 +21,6 @@ public class Listen implements Runnable
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -46,7 +45,6 @@ public class Listen implements Runnable
 		            str += c;
 		         }
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -21,7 +21,6 @@ public class Send
 			bw.close();
 		} catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
