@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -63,16 +64,19 @@ public class ChatClientView extends JFrame {
 			verticalScroll.setValue(verticalScroll.getMaximum());
 		}
 				
-		public void addEnterListener(ActionListener enl) { btnEnter.addActionListener(enl); }
+		public void addEnterListener(ActionListener enl) { 
+			btnEnter.addActionListener(enl); 
+			messageText.addActionListener(enl);
+		}
 		
 		public String getChatMessage() { return messageText.getText(); }
 		
 		public void addToMessageBoard(String str) 
 		{ 
-			chatConversation.append(str);
+			chatConversation.append(str+"\n");
 			moveScrollToBottom();
 		}
 		
-		public void emptyChatMessageField() { messageText.setText(""); }
+		public void clearChatMessageField() { messageText.setText(""); }
 	
 }

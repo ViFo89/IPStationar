@@ -59,12 +59,20 @@ public class ServerConnection implements Runnable
 		close();
 	}
 	
+	/**
+	 * Skickar ett meddelande till servern.
+	 * @param meddelandet som ska skickas till servern.
+	 */
 	public synchronized void sendMessage(String message)
 	{
 		out.println(message);
 		out.flush();
 	}
 	
+	/**
+	 * Returnerar meddelanden som kommit in från servern.
+	 * @return Meddelandet från servern.
+	 */
 	public String getNewMessage() 
 	{
 		String temp;
@@ -72,19 +80,25 @@ public class ServerConnection implements Runnable
 		{
 			hasNewMessage = false;
 			temp = incoming;
+			incoming = "";
 		}
 		return temp;
 	}
 	
+	/**
+	 * Stoppar "run-loopen".
+	 */
 	public void stop() 
 	{
 		synchronized(runLock)
 		{
 			run = false;
 		}
-		System.out.println("run = false");
 	}
 	
+	/**
+	 * Bestämmer om "run-loopen" ska köras.
+	 */
 	private boolean doLoop()
 	{ 
 		boolean temp;
@@ -94,6 +108,9 @@ public class ServerConnection implements Runnable
 		return temp;
 	}
 	
+	/**
+	 * Berättar om det finns ett nytt meddelande att hämta.
+	 */
 	public boolean hasNewMessage() 
 	{
 		boolean temp;
@@ -105,6 +122,9 @@ public class ServerConnection implements Runnable
 		return temp; 
 	}
 	
+	/**
+	 * Stänger alla strömmar.
+	 */
 	private void close()
 	{
 		try {

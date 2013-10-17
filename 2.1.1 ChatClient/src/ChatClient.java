@@ -26,33 +26,24 @@ public class ChatClient {
 		setWindowClosing();
 		view.setTitle(connectionAdress + ":" + connectionPort);
 		view.addEnterListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				String message = view.getChatMessage();
+				view.clearChatMessageField();
+				if(!message.isEmpty())
+					connection.sendMessage(message);
 			}
-			
 		});
 		
 		Thread t = new Thread(connection);
 		t.start();
-		int i = 0;
 		while(true)
 		{
-			//String message;
-			//System.out.println((i++) +":"+ connection.hasNewMessage());
 			if(connection.hasNewMessage()){
 				view.addToMessageBoard(connection.getNewMessage());
 			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
-		//connection.stop();
 		
 	}
 	
@@ -75,6 +66,9 @@ public class ChatClient {
 		}
 	}
 	
+	/*
+	 * Ser till att allting avslutas korrekt när fönstret stängs. 
+	 */
 	private void setWindowClosing()
 	{
 		view.addWindowListener(new WindowAdapter(){
