@@ -39,19 +39,23 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
-		while(doLoop())
+		while(isAlive())
 		{
 			try 
 			{
 				if(in.ready())
 				{
 					String temp = in.readLine();
-					synchronized(messageLock)
+					if(!temp.equals("\\exit"))
+						synchronized(messageLock)
+						{
+							incomingMessage += temp;
+							hasNewMessage = true;
+						}
+					else
 					{
-						incomingMessage += temp;
-						hasNewMessage = true;
+						stop();
 					}
-					
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -107,7 +111,7 @@ public class Client implements Runnable {
 	
 	public int getID() { return id; }
 	
-	private boolean doLoop()
+	public boolean isAlive()
 	{
 		boolean temp;
 		synchronized(run)

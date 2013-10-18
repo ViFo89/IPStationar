@@ -32,10 +32,12 @@ public class ChatServer {
 		{
 			if(System.currentTimeMillis() - startTime > 1000){
 				view.setTitle(cch.generateTitle());
+				cch.checkDeadClients();
 				startTime = System.currentTimeMillis();
 			}
 			
 			cch.checkForNewMesseges();
+			
 			
 		}
 		

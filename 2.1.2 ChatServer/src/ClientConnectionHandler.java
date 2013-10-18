@@ -54,7 +54,6 @@ public class ClientConnectionHandler implements Runnable{
 		{
 			for(Client c : clients)
 			{
-				
 				if(c.hasNewMessage()){
 					String temp = "ID# " + c.getID() + ": ";
 					temp += c.getNewMessage();
@@ -64,6 +63,26 @@ public class ClientConnectionHandler implements Runnable{
 			}
 		}
 		
+	}
+	
+	public void checkDeadClients()
+	{
+		int remove = -1;
+		synchronized(clients)
+		{
+			for(int i = 0; i < clients.size(); i++)
+			{
+				if(!clients.get(i).isAlive()){
+					remove = i;
+				}
+					
+			}
+			if(remove >= 0)
+			{
+				view.addMessage(clients.get(remove).getIPAdress() + " har kopplat ifrån.");
+				clients.remove(remove);
+			}
+		}
 	}
 
 	public String generateTitle()

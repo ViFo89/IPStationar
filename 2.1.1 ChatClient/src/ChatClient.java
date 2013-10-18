@@ -74,6 +74,7 @@ public class ChatClient {
 		view.addWindowListener(new WindowAdapter(){
 			@Override
 			public void windowClosing(WindowEvent e) {
+				connection.sendMessage("\\exit");
 				connection.stop();
 			}
 		});
