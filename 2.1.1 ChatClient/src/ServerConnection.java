@@ -38,7 +38,6 @@ public class ServerConnection implements Runnable
 	@Override
 	public void run()
 	{
-		//System.out.println("run");
 		while(doLoop())
 		{
 			try 
